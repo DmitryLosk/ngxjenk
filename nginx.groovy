@@ -27,7 +27,7 @@ pipeline {
         stage('Check HTTP Response') {
             steps {
                 script {
-                    def response = sh(script: "curl -o /dev/null -s -w '%{http_code}' http://localhost:9889", returnStdout: true).trim()
+                    def response = sh(script: "curl -o /dev/null -s -w '%{http_code}' http://51.250.11.245:9889", returnStdout: true).trim()
                     echo "Ответ код $response"
                     if (response != '200') {
                         error "HTTP response code is not 200, but ${response}"
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     def local_md5 = sh(script: "md5sum index.html | awk '{ print \$1 }'", returnStdout: true).trim()
-                    def container_md5 = sh(script: "curl -s http://localhost:9889/index.html | md5sum | awk '{ print \$1 }'", returnStdout: true).trim()
+                    def container_md5 = sh(script: "curl -s http://51.250.11.245:9889/index.html | md5sum | awk '{ print \$1 }'", returnStdout: true).trim()
                     echo "$local_md5"
                     echo "$container_md5"
                     if (local_md5 != container_md5) {
